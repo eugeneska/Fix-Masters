@@ -52,7 +52,6 @@
   const form = document.getElementById("callback-modal-form");
   const closeButtons = Array.from(document.querySelectorAll("[data-callback-close]"));
   const leads = window.FixMastersLeads;
-  const paths = window.FixMastersPaths || {};
 
   function lockBody(isLocked) {
     document.body.style.overflow = isLocked ? "hidden" : "";
@@ -104,7 +103,7 @@
     });
 
     formElement.reset();
-    window.location.href = result.redirect || paths.thanksUrl || "/thanks";
+    window.location.href = result.redirect || (paths.thanksUrl ? paths.thanksUrl() : "/thanks");
   }
 
   if (form) {

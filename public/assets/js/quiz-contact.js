@@ -57,7 +57,7 @@
       }
       sessionStorage.removeItem(leads.SOURCE_KEY);
 
-      window.location.href = result.redirect || paths.thanksUrl || "/thanks";
+      window.location.href = result.redirect || (paths.thanksUrl ? paths.thanksUrl() : "/thanks");
     } catch (error) {
       alert(error.message || "Не удалось отправить заявку. Попробуйте позже.");
       if (submitBtn) {
