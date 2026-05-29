@@ -1,0 +1,183 @@
+(function () {
+  if (document.body.classList.contains("quiz-page")) {
+    const existingFab = document.getElementById("site-fab");
+    if (existingFab) existingFab.remove();
+    return;
+  }
+
+  const QUIZ_DEVICE_KEY = "fixMastersQuizDevice";
+  const paths = window.FixMastersPaths || { quizUrl: () => "/pages/quiz.html" };
+
+  const fabMarkup = `
+    <div class="site-fab" id="site-fab">
+      <button type="button" class="site-fab__btn" aria-label="Поломалась техника? Пройдите опрос">
+        <span class="site-fab__icon" aria-hidden="true">
+          <svg class="site-fab__icon-svg" width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M25.9611 35.9534L41.5078 51.5001C42.8411 52.7908 44.6284 53.5057 46.484 53.4906C48.3397 53.4756 50.1151 52.7317 51.4273 51.4195C52.7395 50.1073 53.4833 48.3319 53.4984 46.4763C53.5134 44.6206 52.7985 42.8334 51.5078 41.5001L35.8358 25.8281M22.2145 26.4494L26.8678 22.6174L15.5078 11.2574V7.50006L5.5078 1.50006L1.5078 5.50006L7.5078 15.5001H11.2651L22.2171 26.4521L3.98514 41.4654C3.25178 42.067 2.65252 42.8155 2.22593 43.6627C1.79933 44.51 1.55485 45.4371 1.50822 46.3845C1.46159 47.3319 1.61384 48.2786 1.95518 49.1636C2.29652 50.0486 2.81938 50.8524 3.49011 51.5231C4.16084 52.1938 4.96458 52.7167 5.84959 53.058C6.7346 53.3994 7.68128 53.5516 8.62869 53.505C9.5761 53.4584 10.5032 53.2139 11.3505 52.7873C12.1977 52.3607 12.9462 51.7614 13.5478 51.0281L25.9611 35.9534L32.6171 27.8734C33.4625 26.8494 34.5905 26.2041 35.8385 25.8307C37.3051 25.3934 38.9398 25.3294 40.4865 25.4574C42.5713 25.6364 44.6668 25.2672 46.5649 24.3862C48.463 23.5053 50.0977 22.1434 51.3069 20.4355C52.516 18.7277 53.2576 16.7334 53.458 14.6505C53.6583 12.5675 53.3106 10.4684 52.4491 8.56139L43.7131 17.3001C42.2515 16.9621 40.9142 16.2205 39.8535 15.1597C38.7927 14.099 38.0511 12.7616 37.7131 11.3001L46.4491 2.56406C44.5421 1.70263 42.443 1.35484 40.3601 1.55522C38.2771 1.75559 36.2828 2.49715 34.575 3.70632C32.8672 4.91549 31.5052 6.55023 30.6243 8.44832C29.7434 10.3464 29.3741 12.4419 29.5531 14.5267C29.7958 17.3961 29.3638 20.5641 27.1425 22.3934L26.8705 22.6201M44.5078 44.5001L37.5078 37.5001M8.48647 46.5001H8.5078V46.5214H8.48647V46.5001Z" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="site-fab__text">
+          <span class="site-fab__text-line">Поломалась техника? Пройдите опрос</span>
+          <span class="site-fab__text-line">за 1 минуту и мы запишем вас на диагностику</span>
+        </span>
+        <span class="site-fab__arrow" aria-hidden="true">→</span>
+      </button>
+    </div>
+  `;
+
+  if (!document.getElementById("site-fab")) {
+    document.body.insertAdjacentHTML("beforeend", fabMarkup);
+  }
+
+  const fab = document.getElementById("site-fab");
+  if (!fab) return;
+
+  const btn = fab.querySelector(".site-fab__btn");
+  const INITIAL_DELAY = 4000;
+  const EXPANDED_MS = 6000;
+  const COLLAPSED_MS = 12000;
+  let timerId = null;
+  let isExpanded = false;
+
+  function startFullQuiz() {
+    sessionStorage.removeItem(QUIZ_DEVICE_KEY);
+    window.location.href = paths.quizUrl();
+  }
+
+  function expand() {
+    if (isExpanded) return;
+    isExpanded = true;
+    fab.classList.add("is-expanded");
+  }
+
+  function collapse() {
+    if (!isExpanded) return;
+    isExpanded = false;
+    fab.classList.remove("is-expanded");
+  }
+
+  function clearTimer() {
+    if (timerId !== null) {
+      window.clearTimeout(timerId);
+      timerId = null;
+    }
+  }
+
+  function scheduleCollapsed(delay) {
+    clearTimer();
+    timerId = window.setTimeout(() => {
+      collapse();
+      scheduleExpand(COLLAPSED_MS);
+    }, delay);
+  }
+
+  function scheduleExpand(delay) {
+    clearTimer();
+    timerId = window.setTimeout(() => {
+      expand();
+      scheduleCollapsed(EXPANDED_MS);
+    }, delay);
+  }
+
+  btn.addEventListener("click", startFullQuiz);
+
+  btn.addEventListener("mouseenter", () => {
+    clearTimer();
+    expand();
+  });
+
+  btn.addEventListener("mouseleave", () => {
+    if (!fab.matches(":focus-within")) {
+      scheduleCollapsed(800);
+    }
+  });
+
+  btn.addEventListener("focus", expand);
+
+  btn.addEventListener("blur", () => {
+    scheduleCollapsed(800);
+  });
+
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    scheduleExpand(INITIAL_DELAY);
+  }
+})();
+
+(function () {
+  const toggleButtons = document.querySelectorAll(".services__toggle");
+  if (!toggleButtons.length) return;
+
+  const mobileQuery = window.matchMedia("(max-width: 600px)");
+  const CHAR_LIMIT = 100;
+
+  function trimToChars(text, limit) {
+    const normalized = text.replace(/\s+/g, " ").trim();
+    if (normalized.length <= limit) {
+      return { short: normalized, full: normalized, truncated: false };
+    }
+    return {
+      short: `${normalized.slice(0, limit)}...`,
+      full: normalized,
+      truncated: true,
+    };
+  }
+
+  function applyCollapsedState(card, shouldCollapse) {
+    const textEl = card.querySelector(".services__card-text");
+    const button = card.querySelector(".services__toggle");
+    if (!textEl || !button) return;
+
+    if (!textEl.dataset.fullText) {
+      const { short, full, truncated } = trimToChars(textEl.textContent || "", CHAR_LIMIT);
+      textEl.dataset.fullText = full;
+      textEl.dataset.shortText = short;
+      textEl.dataset.truncated = String(truncated);
+    }
+
+    const truncated = textEl.dataset.truncated === "true";
+    if (!truncated) {
+      button.style.visibility = "hidden";
+      button.style.pointerEvents = "none";
+      button.setAttribute("aria-expanded", "true");
+      return;
+    }
+
+    button.style.visibility = "";
+    button.style.pointerEvents = "";
+    if (shouldCollapse) {
+      card.classList.remove("is-expanded");
+      textEl.textContent = textEl.dataset.shortText || textEl.textContent;
+      button.setAttribute("aria-expanded", "false");
+    } else {
+      card.classList.add("is-expanded");
+      textEl.textContent = textEl.dataset.fullText || textEl.textContent;
+      button.setAttribute("aria-expanded", "true");
+    }
+  }
+
+  function syncCardsForViewport() {
+    const shouldCollapse = mobileQuery.matches;
+    document.querySelectorAll(".services__card").forEach((card) => {
+      applyCollapsedState(card, shouldCollapse);
+    });
+  }
+
+  syncCardsForViewport();
+  mobileQuery.addEventListener("change", syncCardsForViewport);
+
+  toggleButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      if (!mobileQuery.matches) return;
+      const card = button.closest(".services__card");
+      if (!card) return;
+      const textEl = card.querySelector(".services__card-text");
+      if (!textEl || textEl.dataset.truncated !== "true") return;
+
+      const isExpanded = card.classList.toggle("is-expanded");
+      textEl.textContent = isExpanded
+        ? (textEl.dataset.fullText || textEl.textContent)
+        : (textEl.dataset.shortText || textEl.textContent);
+      button.setAttribute("aria-expanded", String(isExpanded));
+    });
+  });
+})();
