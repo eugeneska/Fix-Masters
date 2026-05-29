@@ -1,0 +1,486 @@
+@extends('layouts.fix-masters')
+
+@section('title', 'FIX-MASTERS — ремонт техники')
+
+@section('showQuizPromo', '1')
+
+@section('content')
+<main class="main">
+    <section class="hero">
+      <div class="hero__brands" aria-hidden="true">
+        <img src="{{ asset('images/hero/lenovo.webp') }}" alt="" class="hero__brand-logo hero__brand-logo--lenovo" width="150" height="60">
+        <img src="{{ asset('images/hero/asus.webp') }}" alt="" class="hero__brand-logo hero__brand-logo--asus" width="148" height="52">
+        <img src="{{ asset('images/hero/hp.webp') }}" alt="" class="hero__brand-logo hero__brand-logo--hp" width="68" height="68">
+        <img src="{{ asset('images/hero/gig.webp') }}" alt="" class="hero__brand-logo hero__brand-logo--gig" width="165" height="50">
+        <img src="{{ asset('images/hero/msi.webp') }}" alt="" class="hero__brand-logo hero__brand-logo--msi" width="100" height="40">
+        <img src="{{ asset('images/hero/lg.webp') }}" alt="" class="hero__brand-logo hero__brand-logo--lg" width="95" height="50">
+        <img src="{{ asset('images/hero/apple.webp') }}" alt="" class="hero__brand-logo hero__brand-logo--apple" width="65" height="80">
+        <img src="{{ asset('images/hero/sams.webp') }}" alt="" class="hero__brand-logo hero__brand-logo--sams" width="115" height="36">
+        <img src="{{ asset('images/hero/nvid.webp') }}" alt="" class="hero__brand-logo hero__brand-logo--nvid" width="140" height="48">
+      </div>
+
+      <div class="hero__inner">
+        <div class="hero__content">
+          <div class="hero-meta-info" aria-hidden="true">
+            <p class="hero-meta-info__line">
+              Прием заявок на сайте <span class="hero-meta-info__accent">24 часа в сутки, 7 дней в неделю</span>
+            </p>
+            <p class="hero-meta-info__line">
+              Время работы: <strong>Ежедневно 9:00 - 21:00</strong>
+            </p>
+          </div>
+
+          <p class="hero__location">
+            <svg class="hero__location-icon" width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M8 0C4.134 0 1 3.134 1 7c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" fill="currentColor"/>
+            </svg>
+            Минск и Минская область
+          </p>
+
+          <h1 class="hero__title">
+            <span class="hero__title-variant hero__title-variant--desktop">
+              <span class="hero__title-line">Ремонтируем <span class="hero__title-accent">любые</span></span>
+              <span class="hero__title-line">ноутбуки, ПК и телевизоры</span>
+            </span>
+            <span class="hero__title-variant hero__title-variant--mobile">
+              <span class="hero__title-line">Ремонтируем</span>
+              <span class="hero__title-line"><span class="hero__title-accent">любые</span> ноутбуки,</span>
+              <span class="hero__title-line">ПК и телевизоры</span>
+            </span>
+          </h1>
+
+          <p class="hero__subtitle">
+            После диагностики мастер согласует точную цену, которая <strong>не изменится</strong>.
+          </p>
+
+          <ul class="hero__list">
+            <li>Официальная гарантия на бумаге <strong>до 12 месяцев</strong></li>
+            <li>Диагностика <strong>бесплатно</strong> при заказе ремонта</li>
+            <li>Ремонт <strong>с выездом на дом</strong></li>
+            <li><strong>Оригинальные запчасти</strong> в наличии</li>
+          </ul>
+
+          <div class="hero__actions">
+            <div class="hero__action-group">
+              <a href="{{ route('quiz.device') }}" class="hero__btn hero__btn--primary" data-lead-source="hero_diagnostic">Заказать диагностику</a>
+              <p class="hero__note">
+                <span class="hero__note-line hero__note-line--first">* Пройдите опрос <b class="hero__note-accent">за 1 минуту</b> и узнайте цену ремонта</span>
+                <span class="hero__note-line">после диагностики</span>
+              </p>
+            </div>
+            <a href="{{ route('quiz.contact') }}" class="hero__btn hero__btn--secondary" data-lead-source="hero_master">Вызвать мастера</a>
+          </div>
+        </div>
+
+        <div class="hero__visual">
+          <img src="{{ asset('images/hero/hero.webp') }}" alt="Мастер ремонтирует ноутбук" class="hero__image" width="1280" height="1150">
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="features__inner">
+        <h2 class="features__title">
+          <span class="features__title-line">Сервис, за который</span>
+          <span class="features__title-line">нам не стыдно</span>
+        </h2>
+
+        <div class="features__grid">
+          <article class="features__card">
+            <div class="features__icon-wrap">
+              <img src="{{ asset('images/services/def.webp') }}" alt="" class="features__icon" width="48" height="48">
+            </div>
+            <h3 class="features__card-title">Официальная гарантия</h3>
+            <p class="features__card-text">
+              Вы получаете чек и гарантийный талон на срок <strong>от 6 до 12 месяцев</strong>
+            </p>
+          </article>
+
+          <article class="features__card">
+            <div class="features__icon-wrap">
+              <img src="{{ asset('images/services/fura.webp') }}" alt="" class="features__icon" width="48" height="48">
+            </div>
+            <h3 class="features__card-title">Работаем на выезде и в мастерской</h3>
+            <p class="features__card-text">
+              Если ремонт сложный — аккуратно доставим <strong>технику</strong> в сервис и привезем обратно
+            </p>
+          </article>
+
+          <article class="features__card">
+            <div class="features__icon-wrap">
+              <img src="{{ asset('images/services/proc.webp') }}" alt="" class="features__icon" width="48" height="48">
+            </div>
+            <h3 class="features__card-title">Собственный склад запчастей</h3>
+            <p class="features__card-text">
+              Популярные <strong>детали всегда в наличии</strong> — не нужно ждать доставку неделями
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="services">
+      <div class="services__inner">
+        <h2 class="services__title">
+          <span class="services__title-line services__title-line--desktop">Ремонтируем только то,</span>
+          <span class="services__title-line services__title-line--desktop">в чем <span class="services__title-accent">действительно разбираемся</span></span>
+          <span class="services__title-line services__title-line--mobile">Ремонтируем</span>
+          <span class="services__title-line services__title-line--mobile">только то, в чем</span>
+          <span class="services__title-line services__title-line--mobile"><span class="services__title-accent">действительно</span></span>
+          <span class="services__title-line services__title-line--mobile"><span class="services__title-accent">разбираемся</span></span>
+        </h2>
+        <p class="services__lead">
+          <span class="services__lead-line">Наша команда разделена на профильные направления</span>
+          <span class="services__lead-line">чтобы вашим устройством занимался узкий специалист.</span>
+        </p>
+
+        <div class="services__grid">
+          <article class="services__card">
+            <div class="services__media">
+              <img src="{{ asset('images/repair/lapt.webp') }}" alt="" class="services__image" width="320" height="200">
+            </div>
+            <div class="services__card-head">
+              <h3 class="services__card-title">Ремонт ноутбуков</h3>
+              <button type="button" class="services__toggle" aria-label="Показать полный текст" aria-expanded="false">
+                <svg class="services__toggle-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M4.5 8.25L12 15.75L19.5 8.25" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+            <p class="services__card-text">
+              Устраняем проблемы с перегревом, шумом и падением производительности. Проводим чистку от пыли, замену термопасты, термопрокладок, матриц, портов и кулеров. Установим и настроим ОС, удалим вирусы, исправим ошибки ПО и обновим BIOS.
+            </p>
+            <button type="button" class="services__btn" data-quiz-device="laptop">Записаться на диагностику</button>
+          </article>
+
+          <article class="services__card">
+            <div class="services__media">
+              <img src="{{ asset('images/repair/pk.webp') }}" alt="" class="services__image" width="320" height="200">
+            </div>
+            <div class="services__card-head">
+              <h3 class="services__card-title">Ремонт ПК</h3>
+              <button type="button" class="services__toggle" aria-label="Показать полный текст" aria-expanded="false">
+                <svg class="services__toggle-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M4.5 8.25L12 15.75L19.5 8.25" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+            <p class="services__card-text">
+              Решаем любые программные сбои и аппаратные поломки стационарных ПК. Проводим полную чистку от пыли, замену термопасты процессора и видеокарты. Отремонтируем или заменим комплектующие, настроим BIOS, установим драйверы и удалим вирусы.
+            </p>
+            <button type="button" class="services__btn" data-quiz-device="pc">Записаться на диагностику</button>
+          </article>
+
+          <article class="services__card">
+            <div class="services__media">
+              <img src="{{ asset('images/repair/tv.webp') }}" alt="" class="services__image" width="320" height="200">
+            </div>
+            <div class="services__card-head">
+              <h3 class="services__card-title">Ремонт телевизоров</h3>
+              <button type="button" class="services__toggle" aria-label="Показать полный текст" aria-expanded="false">
+                <svg class="services__toggle-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M4.5 8.25L12 15.75L19.5 8.25" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+            <p class="services__card-text">
+              Чиним ТВ, если пропало изображение или звук, устройство не включается, не ловит сигнал, не видит внешние подключения или не реагирует на пульт. Ремонтируем светодиодные линейки подсветки, платы питания, матрицы, разъемы и ТВ-тюнеры.
+            </p>
+            <button type="button" class="services__btn" data-quiz-device="tv">Записаться на диагностику</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="accent" aria-labelledby="accent-title">
+      <div class="accent__inner">
+        <header class="accent__header">
+          <h2 class="accent__title" id="accent-title">Все согласуем до начала работ</h2>
+          <p class="accent__lead">
+            <span class="accent__lead-line accent__lead-line--desktop">Мы против «сюрпризов» в чеке. Вы платите только</span>
+            <span class="accent__lead-line accent__lead-line--desktop">за реальный, заранее утвержденный результат.</span>
+            <span class="accent__lead-line accent__lead-line--mobile">Мы против «сюрпризов» в чеке.</span>
+            <span class="accent__lead-line accent__lead-line--mobile">Вы платите только за реальный,</span>
+            <span class="accent__lead-line accent__lead-line--mobile">заранее утвержденный результат.</span>
+          </p>
+        </header>
+
+        <div class="accent__grid">
+          <article class="accent__item accent__item--icon-tall">
+            <div class="accent__icon accent__icon--tall" aria-hidden="true">
+              <svg class="accent__icon-svg accent__icon-svg--tall" width="57" height="75" viewBox="0 0 57 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M49 49.0001L36.8737 36.8738M36.8737 36.8738C40.1557 33.5918 41.9995 29.1404 41.9995 24.4989C41.9995 19.8575 40.1557 15.4061 36.8737 12.1241C33.5917 8.8421 29.1403 6.99829 24.4988 6.99829C19.8574 6.99829 15.406 8.8421 12.124 12.1241C8.842 15.4061 6.99818 19.8575 6.99818 24.4989C6.99818 29.1404 8.842 33.5918 12.124 36.8738C15.406 40.1558 19.8574 41.9996 24.4988 41.9996C29.1403 41.9996 33.5917 40.1558 36.8737 36.8738Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <rect y="72" width="57" height="3" rx="1.5" fill="currentColor"/>
+              </svg>
+            </div>
+            <span class="accent__divider accent__divider--hidden" aria-hidden="true"></span>
+            <h3 class="accent__item-title">
+              <span class="accent__item-title-line">Бесплатная диагностика при</span>
+              <span class="accent__item-title-line">заказе ремонта</span>
+            </h3>
+            <p class="accent__item-text">
+              <span class="accent__item-text-line">Мастер находит точную причину</span>
+              <span class="accent__item-text-line">поломки</span>
+            </p>
+          </article>
+
+          <article class="accent__item accent__item--icon-tall">
+            <div class="accent__icon accent__icon--tall" aria-hidden="true">
+              <svg class="accent__icon-svg accent__icon-svg--tall" width="57" height="75" viewBox="0 0 57 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M45.5 33.25V27.125C45.5 25.0364 44.6703 23.0334 43.1935 21.5565C41.7166 20.0797 39.7136 19.25 37.625 19.25H34.125C33.4288 19.25 32.7611 18.9734 32.2688 18.4812C31.7766 17.9889 31.5 17.3212 31.5 16.625V13.125C31.5 11.0364 30.6703 9.03338 29.1935 7.55653C27.7166 6.07969 25.7136 5.25 23.625 5.25H19.25M28 26.25V43.75M33.25 28.6627C30.6141 27.9838 27.8715 27.823 25.1743 28.189C23.9237 28.357 22.9017 29.3043 22.792 30.562C22.7642 30.8739 22.7502 31.1869 22.75 31.5C22.75 32.5827 23.534 33.4693 24.5583 33.8193L31.4417 36.1807C32.4683 36.5307 33.25 37.4173 33.25 38.5C33.25 38.8173 33.236 39.13 33.208 39.438C33.0983 40.6957 32.0763 41.643 30.8257 41.811C28.1283 42.1734 25.3865 42.0126 22.75 41.3373M24.5 5.25H13.125C11.676 5.25 10.5 6.426 10.5 7.875V48.125C10.5 49.574 11.676 50.75 13.125 50.75H42.875C44.324 50.75 45.5 49.574 45.5 48.125V26.25C45.5 20.6805 43.2875 15.339 39.3492 11.4008C35.411 7.46249 30.0695 5.25 24.5 5.25Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <rect y="72" width="57" height="3" rx="1.5" fill="currentColor"/>
+              </svg>
+            </div>
+            <span class="accent__divider accent__divider--hidden" aria-hidden="true"></span>
+            <h3 class="accent__item-title">
+              <span class="accent__item-title-line">Фиксированная смета</span>
+              <span class="accent__item-title-line">до ремонта</span>
+            </h3>
+            <p class="accent__item-text">Называем точную стоимость деталей и работы. Вы принимаете решение</p>
+          </article>
+
+          <article class="accent__item accent__item--payment">
+            <div class="accent__icon" aria-hidden="true">
+              <svg class="accent__icon-svg accent__icon-svg--tools" width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M25.9611 35.9534L41.5078 51.5001C42.8411 52.7908 44.6284 53.5057 46.484 53.4906C48.3397 53.4756 50.1151 52.7317 51.4273 51.4195C52.7395 50.1073 53.4833 48.3319 53.4984 46.4763C53.5134 44.6206 52.7985 42.8334 51.5078 41.5001L35.8358 25.8281M22.2145 26.4494L26.8678 22.6174L15.5078 11.2574V7.50006L5.5078 1.50006L1.5078 5.50006L7.5078 15.5001H11.2651L22.2171 26.4521L3.98514 41.4654C3.25178 42.067 2.65252 42.8155 2.22593 43.6627C1.79933 44.51 1.55485 45.4371 1.50822 46.3845C1.46159 47.3319 1.61384 48.2786 1.95518 49.1636C2.29652 50.0486 2.81938 50.8524 3.49011 51.5231C4.16084 52.1938 4.96458 52.7167 5.84959 53.058C6.7346 53.3994 7.68128 53.5516 8.62869 53.505C9.5761 53.4584 10.5032 53.2139 11.3505 52.7873C12.1977 52.3607 12.9462 51.7614 13.5478 51.0281L25.9611 35.9534L32.6171 27.8734C33.4625 26.8494 34.5905 26.2041 35.8385 25.8307C37.3051 25.3934 38.9398 25.3294 40.4865 25.4574C42.5713 25.6364 44.6668 25.2672 46.5649 24.3862C48.463 23.5053 50.0977 22.1434 51.3069 20.4355C52.516 18.7277 53.2576 16.7334 53.458 14.6505C53.6583 12.5675 53.3106 10.4684 52.4491 8.56139L43.7131 17.3001C42.2515 16.9621 40.9142 16.2205 39.8535 15.1597C38.7927 14.099 38.0511 12.7616 37.7131 11.3001L46.4491 2.56406C44.5421 1.70263 42.443 1.35484 40.3601 1.55522C38.2771 1.75559 36.2828 2.49715 34.575 3.70632C32.8672 4.91549 31.5052 6.55023 30.6243 8.44832C29.7434 10.3464 29.3741 12.4419 29.5531 14.5267C29.7958 17.3961 29.3638 20.5641 27.1425 22.3934L26.8705 22.6201M44.5078 44.5001L37.5078 37.5001M8.48647 46.5001H8.5078V46.5214H8.48647V46.5001Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="accent__divider" aria-hidden="true"></span>
+            <h3 class="accent__item-title">
+              <span class="accent__item-title-line">Сначала ремонт и ваша проверка,</span>
+              <span class="accent__item-title-line">потом оплата</span>
+            </h3>
+            <p class="accent__item-text">Чиним технику, вы проверяете результат и только после этого оплачиваете</p>
+          </article>
+        </div>
+      </div>
+  </section>
+
+  <section class="pricing">
+    <div class="pricing__inner">
+      <h2 class="pricing__title">
+        <span class="pricing__title-line">Популярные услуги</span>
+        <span class="pricing__title-line">и стоимость</span>
+        <span class="pricing__title-line">ремонта</span>
+      </h2>
+      <p class="pricing__lead">
+        <span class="pricing__lead-line">В таблице указаны ориентировочные</span>
+        <span class="pricing__lead-line">цены. Фактическую стоимость ремонта</span>
+        <span class="pricing__lead-line">именно под вашу модель устройства вы</span>
+        <span class="pricing__lead-line">узнаете после диагностики.</span>
+      </p>
+
+      <div class="pricing__list" role="list">
+        <p class="pricing__group-title">Ноутбуки / ПК</p>
+        <div class="pricing__row" role="listitem">
+          <span class="pricing__service">Чистка от пыли и замена термопасты</span>
+          <span class="pricing__category">Ноутбуки / ПК</span>
+          <span class="pricing__price"><span class="pricing__price-from">от</span> <strong class="pricing__price-value">30 BYN</strong></span>
+        </div>
+
+        <div class="pricing__row" role="listitem">
+          <span class="pricing__service">Установка и настройка ОС, удаление вирусов</span>
+          <span class="pricing__category">Ноутбуки / ПК</span>
+          <span class="pricing__price"><span class="pricing__price-from">от</span> <strong class="pricing__price-value">40 BYN</strong></span>
+        </div>
+
+        <div class="pricing__row" role="listitem">
+          <span class="pricing__service">Аппаратный ремонт и замена комплектующих</span>
+          <span class="pricing__category">Ноутбуки / ПК</span>
+          <span class="pricing__price"><span class="pricing__price-from">от</span> <strong class="pricing__price-value">50 BYN</strong></span>
+        </div>
+
+        <p class="pricing__group-title">Телевизоры</p>
+        <div class="pricing__row" role="listitem">
+          <span class="pricing__service">Нет звука</span>
+          <span class="pricing__category">Телевизоры</span>
+          <span class="pricing__price"><span class="pricing__price-from">от</span> <strong class="pricing__price-value">20 BYN</strong></span>
+        </div>
+
+        <div class="pricing__row" role="listitem">
+          <span class="pricing__service">Нет изображения</span>
+          <span class="pricing__category">Телевизоры</span>
+          <span class="pricing__price"><span class="pricing__price-from">от</span> <strong class="pricing__price-value">30 BYN</strong></span>
+        </div>
+
+        <div class="pricing__row" role="listitem">
+          <span class="pricing__service">Не включается</span>
+          <span class="pricing__category">Телевизоры</span>
+          <span class="pricing__price"><span class="pricing__price-from">от</span> <strong class="pricing__price-value">50 BYN</strong></span>
+        </div>
+      </div>
+
+      <div class="pricing__actions">
+        <a href="{{ route('quiz.device') }}" class="pricing__btn" data-quiz-full data-lead-source="services_survey">Пройти опрос →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="payment">
+    <div class="payment__inner">
+      <h2 class="payment__title">
+        <span class="payment__title-line payment__title-line--desktop">Удобные способы оплаты</span>
+        <span class="payment__title-line payment__title-line--desktop">после проверки работы</span>
+        <span class="payment__title-line payment__title-line--mobile">Удобные способы</span>
+        <span class="payment__title-line payment__title-line--mobile">оплаты после</span>
+        <span class="payment__title-line payment__title-line--mobile">проверки работы</span>
+      </h2>
+      <p class="payment__lead">
+        <span class="payment__lead-line">Принимаем оплату только тогда, когда вы убедились,</span>
+        <span class="payment__lead-line">что все работает исправно.</span>
+      </p>
+
+      <div class="payment__grid">
+        <article class="payment__item">
+          <div class="payment__icon-wrap">
+            <img src="{{ asset('images/oplata/procent.webp') }}" alt="" class="payment__icon" width="48" height="48">
+          </div>
+          <p class="payment__label">
+            <span class="payment__label-line">Предоплата только</span>
+            <span class="payment__label-line">на комплектующие</span>
+          </p>
+        </article>
+
+        <article class="payment__item">
+          <div class="payment__icon-wrap">
+            <img src="{{ asset('images/oplata/money.webp') }}" alt="" class="payment__icon" width="48" height="48">
+          </div>
+          <p class="payment__label">Наличный расчет</p>
+        </article>
+
+        <article class="payment__item">
+          <div class="payment__icon-wrap">
+            <img src="{{ asset('images/oplata/filemoney.webp') }}" alt="" class="payment__icon" width="48" height="48">
+          </div>
+          <p class="payment__label">Безналичный расчет</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+    <section class="faq">
+      <div class="faq__inner">
+        <h2 class="faq__title">
+          <span class="faq__title-line faq__title-line--desktop">Отвечаем на частые вопросы</span>
+          <span class="faq__title-line faq__title-line--desktop">наших клиентов</span>
+          <span class="faq__title-line faq__title-line--mobile">Отвечаем</span>
+          <span class="faq__title-line faq__title-line--mobile">на частые вопросы</span>
+          <span class="faq__title-line faq__title-line--mobile">наших клиентов</span>
+        </h2>
+
+        <div class="faq__list">
+          <details class="faq__item">
+            <summary class="faq__question">
+              <span class="faq__question-text">Сколько стоит диагностика?</span>
+              <span class="faq__toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="faq__answer">
+              <p>Диагностика бесплатна, если вы заказываете ремонт у нас. Мастер осмотрит устройство, найдёт причину неисправности и озвучит точную стоимость работ до начала ремонта.</p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary class="faq__question">
+              <span class="faq__question-text">Как долго длится ремонт?</span>
+              <span class="faq__toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="faq__answer">
+              <p>Большинство работ выполняется в день обращения (1–4 часа). Сложные случаи или заказ запчастей — до 3 рабочих дней. Всегда называем срок заранее.</p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary class="faq__question">
+              <span class="faq__question-text">Есть ли гарантия на ремонт?</span>
+              <span class="faq__toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="faq__answer">
+              <p>Да. После ремонта выдаём чек и гарантийный талон на срок от 6 до 12 месяцев — в зависимости от вида работ и установленных деталей.</p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary class="faq__question">
+              <span class="faq__question-text">Выезжаете ли вы на дом?</span>
+              <span class="faq__toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="faq__answer">
+              <p>Да, работаем с выездом по Минску и Минскому району. Если ремонт невозможен на месте, аккуратно доставим технику в сервис и привезём обратно после ремонта.</p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary class="faq__question">
+              <span class="faq__question-text">Как оплатить услуги?</span>
+              <span class="faq__toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="faq__answer">
+              <p>Оплата — после проверки результата: наличными или безналичным расчётом. Предоплата нужна только на заказ комплектующих, если детали под вашу модель нет в наличии.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact">
+      <div class="contact__inner">
+        <div class="contact__card">
+          <div class="contact__content">
+            <h2 class="contact__title">Не нашли ответ на свой вопрос?</h2>
+            <p class="contact__lead">
+              <span class="contact__lead-line contact__lead-line--desktop">
+                <span class="contact__lead-accent">Оставьте свой номер.</span> Мы перезвоним, <span class="contact__lead-accent">бесплатно</span>
+              </span>
+              <span class="contact__lead-line contact__lead-line--desktop">
+                <span class="contact__lead-accent">проконсультируем</span> и назовем примерную стоимость ремонта
+              </span>
+              <span class="contact__lead-line contact__lead-line--desktop">вашей техники</span>
+              <span class="contact__lead-line contact__lead-line--mobile">Оставьте свой номер. Мы перезвоним,</span>
+              <span class="contact__lead-line contact__lead-line--mobile"><span class="contact__lead-accent">бесплатно проконсультируем</span></span>
+              <span class="contact__lead-line contact__lead-line--mobile">и&nbsp;назовем примерную стоимость</span>
+              <span class="contact__lead-line contact__lead-line--mobile">ремонта вашей техники</span>
+            </p>
+
+            <form class="contact__form" action="#" method="post">
+              <div class="contact__fields">
+                <label class="contact__field">
+                  <span class="contact__label">Имя*</span>
+                  <input type="text" class="contact__input contact__input--name" name="name" placeholder="Введите имя" required autocomplete="name">
+                </label>
+
+                <label class="contact__field">
+                  <span class="contact__label">Номер телефона*</span>
+                  <input type="tel" class="contact__input" name="phone" required>
+                </label>
+              </div>
+
+              <div class="contact__footer">
+                <label class="contact__consent">
+                  <input type="checkbox" class="contact__checkbox" name="consent" required>
+                  <span class="contact__consent-text">
+                    Я согласен(на) с <a href="{{ route('privacy') }}" class="contact__link">Политикой конфиденциальности</a> и <a href="{{ route('privacy') }}" class="contact__link">Условиями обработки персональных данных</a>.
+                  </span>
+                </label>
+
+                <button type="submit" class="contact__submit">Оставить заявку</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="contact__visual">
+            <img src="{{ asset('images/form.webp') }}" alt="Мастер ремонтирует ноутбук" class="contact__image" width="640" height="480">
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+@endsection
+
+@push('scripts')
+<script src="{{ asset('assets/js/phone-mask.js') }}"></script>
+<script src="{{ asset('assets/js/site-fab.js') }}"></script>
+<script src="{{ asset('assets/js/services-quiz.js') }}"></script>
+<script src="{{ asset('assets/js/callback-modal.js') }}"></script>
+<script src="{{ asset('assets/js/quiz-promo-modal.js') }}"></script>
+<script src="{{ asset('assets/js/cookie-consent.js') }}"></script>
+@endpush

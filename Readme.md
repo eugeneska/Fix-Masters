@@ -1,56 +1,64 @@
 # FIX-MASTERS
 
-Статический сайт сервиса ремонта техники (Минск).
+Сайт сервиса ремонта техники (Минск) на **Laravel 13**. Страницы отдаются через Blade, статика — из `public/`.
 
-## Структура проекта
+## Требования
 
-```
-Fix-Masters/
-├── index.html              # Главная страница
-├── fonp.png                # Фон (исходник)
-├── fonp.webp               # Фон на сайте (сжатый)
-├── README.md
-├── assets/
-│   ├── css/
-│   │   └── style.css       # Общие стили
-│   └── js/
-│       ├── paths.js        # Пути между главной и квизом
-│       ├── site-fab.js     # Плавающая кнопка опроса
-│       ├── services-quiz.js
-│       ├── callback-modal.js
-│       ├── quiz-page.js
-│       ├── quiz-step-2.js
-│       ├── quiz-step-3.js
-│       └── quiz-step-3-tv.js
-├── pages/
-│   ├── quiz.html           # Квиз, шаг 1 — тип устройства
-│   ├── quiz-step-2.html    # Шаг 2 — проблема
-│   ├── quiz-step-3.html    # Шаг 3 — марка ноутбука
-│   ├── quiz-step-3-tv.html # Шаг 3 — марка ТВ
-│   └── request.html        # Форма заявки
-└── images/
-    ├── hero/               # Логотипы брендов, hero
-    ├── repair/             # Карточки услуг
-    ├── services/           # Блок преимуществ
-    ├── question1/         # Квиз, шаг 1
-    ├── oplata/             # Способы оплаты
-    ├── form.jpg
-    └── logo.png
-```
+- PHP 8.3+
+- Composer
+- SQLite (по умолчанию в `.env`) или MySQL/PostgreSQL
 
 ## Запуск локально
 
 ```bash
 cd Fix-Masters
-python3 -m http.server 8080
+composer install
+cp .env.example .env && php artisan key:generate   # если нет .env
+php artisan migrate
+php artisan serve
 ```
 
-Откройте http://localhost:8080
+Откройте http://127.0.0.1:8000
+
+## Telegram-уведомления
+
+В `.env` укажите:
+
+```env
+TELEGRAM_BOT_TOKEN=...
+TELEGRAM_CHAT_ID=...
+```
+
+Без этих переменных заявки сохраняются в БД, но сообщение в Telegram не отправляется (ошибка пишется в лог).
+
+## Маршруты
+
+| URL | Страница |
+|-----|----------|
+| `/` | Главная |
+| `/quiz/device` | Квиз: тип устройства |
+| `/quiz/problem` | Квиз: проблема |
+| `/quiz/brand` | Квиз: марка (ноутбук / ТВ) |
+| `/quiz/contact` | Контактная форма |
+| `/thanks` | Страница благодарности |
+| `POST /api/leads` | Приём заявок (JSON) |
+
+Старые URL (`/quiz`, `/request`, `/pages/*.html`) перенаправляются на новые (301).
 
 ## Квиз
 
-Маршрут зависит от типа устройства (`sessionStorage`: `fixMastersQuizDevice`):
+Логика шагов (`sessionStorage`):
 
-- **laptop** — шаги 1 → 2 → 3 (бренды) → заявка
-- **pc** — шаги 1 → 2 → заявка
-- **tv** — шаги 1 → 2 → 3 (бренды ТВ) → заявка
+- **laptop** — device → problem → brand → contact
+- **pc** — device → problem → contact (brand пропускается)
+- **tv** — device → problem → brand (ТВ) → contact
+
+## Источники заявок
+
+Фиксируются в поле `source`: хедер, баннеры, карточки услуг, опрос, футер, FAB, поп-ап, форма квиза.
+
+## Laravel
+
+- Документация: https://laravel.com/docs
+- Пересборка Blade: `php artisan view:clear`
+- Тесты: `php artisan test`
