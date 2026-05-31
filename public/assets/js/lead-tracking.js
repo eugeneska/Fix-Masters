@@ -2,9 +2,12 @@
   const SOURCE_KEY = "fixMastersLeadSource";
   const ATTRIBUTION_KEY = "fixMastersAttribution";
   const POPUP_SHOWN_KEY = "fixMastersPopupShown";
+  const SUBMIT_GUARD_KEY = "fixMastersLeadSubmitted";
+  const PENDING_ANALYTICS_KEY = "fixMastersPendingAnalytics";
 
   const UTM_PARAMS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
   const AD_PARAMS = ["gclid", "yclid"];
+  const FIRST_CONTACT_KEY = "fixMastersFirstContact";
 
   const SOURCES = {
     headerCallback: "header_callback",
@@ -46,9 +49,25 @@
       }
     });
 
+    if (!localStorage.getItem(FIRST_CONTACT_KEY)) {
+      localStorage.setItem(FIRST_CONTACT_KEY, window.location.href);
+    }
+
     if (changed) {
       writeAttribution(stored);
     }
+  }
+
+  function getTrackingContext() {
+    const analytics = window.FixMastersAnalytics || {};
+    return {
+      form_url: window.location.href,
+      first_contact_url: localStorage.getItem(FIRST_CONTACT_KEY) || window.location.href,
+      referrer: document.referrer || null,
+      last_click: sessionStorage.getItem(SOURCE_KEY) || null,
+      ym_client_id: analytics.getYmClientId ? analytics.getYmClientId() : null,
+      ga_client_id: analytics.getGaClientId ? analytics.getGaClientId() : null,
+    };
   }
 
   function getCsrfToken() {
@@ -86,10 +105,23 @@
       return localStorage.getItem(POPUP_SHOWN_KEY) === "1";
     },
 
-    async submit({ source, name, phone, comment, quizAnswers, consent }) {
+    resolveFormEventId(source, formElement) {
+      if (formElement?.dataset?.analyticsFormId) {
+        return formElement.dataset.analyticsFormId;
+      }
+      return source || this.getSource();
+    },
+
+    async submit({ source, name, phone, comment, quizAnswers, consent, formElement }) {
+      if (sessionStorage.getItem(SUBMIT_GUARD_KEY) === "1") {
+        throw new Error("Заявка уже отправлена. Обновите страницу, чтобы отправить снова.");
+      }
+
       const paths = window.FixMastersPaths || {};
       const url = paths.leadsStoreUrl || "/api/leads";
       const attribution = readAttribution();
+
+      const tracking = getTrackingContext();
 
       const body = {
         source: source || this.getSource(),
@@ -105,6 +137,13 @@
         utm_term: attribution.utm_term || null,
         gclid: attribution.gclid || null,
         yclid: attribution.yclid || null,
+        form_url: tracking.form_url,
+        first_contact_url: tracking.first_contact_url,
+        referrer: tracking.referrer,
+        last_click: tracking.last_click,
+        ym_client_id: tracking.ym_client_id,
+        ga_client_id: tracking.ga_client_id,
+        messenger: null,
       };
 
       const response = await fetch(url, {
@@ -123,6 +162,18 @@
         const message = data.message || (data.errors ? Object.values(data.errors).flat().join(" ") : "Ошибка отправки");
         throw new Error(message);
       }
+
+      sessionStorage.setItem(SUBMIT_GUARD_KEY, "1");
+
+      const formEventId = this.resolveFormEventId(source, formElement);
+      sessionStorage.setItem(
+        PENDING_ANALYTICS_KEY,
+        JSON.stringify({
+          formId: formEventId,
+          leadId: data.id ?? null,
+          source: body.source,
+        }),
+      );
 
       return data;
     },

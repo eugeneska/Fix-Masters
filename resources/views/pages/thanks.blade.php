@@ -28,7 +28,7 @@
           <span class="quiz-step4__thanks-line">Мы работаем <strong>ежедневно 09:00–21:00</strong></span>
         </p>
         <div class="quiz-step4__actions quiz-step4__actions--thanks">
-          <button type="button" class="quiz__btn quiz__btn--next quiz-step4__home-btn" id="thanks-home-btn">На главную</button>
+          <button type="button" class="quiz__btn quiz__btn--next quiz-step4__home-btn" id="thanks-home-btn" data-analytics-event="button_click" data-analytics-label="На главную">На главную</button>
         </div>
       </div>
     </div>

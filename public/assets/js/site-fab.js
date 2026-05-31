@@ -33,6 +33,9 @@
     if (isExpanded) return;
     isExpanded = true;
     fab.classList.add("is-expanded");
+    if (window.FixMastersAnalytics) {
+      window.FixMastersAnalytics.trackFab("expand");
+    }
   }
 
   function collapse() {
@@ -93,6 +96,9 @@
   });
 
   btn.addEventListener("click", () => {
+    if (window.FixMastersAnalytics) {
+      window.FixMastersAnalytics.trackFab("click");
+    }
     if (leads) {
       leads.setSource(leads.SOURCES.fab);
     }

@@ -62,13 +62,13 @@
 
           <div class="hero__actions">
             <div class="hero__action-group">
-              <a href="{{ route('quiz.device') }}" class="hero__btn hero__btn--primary" data-lead-source="hero_diagnostic">Заказать диагностику</a>
+              <a href="{{ route('quiz.device') }}" class="hero__btn hero__btn--primary" data-lead-source="hero_diagnostic" data-analytics-event="button_click" data-analytics-label="Заказать диагностику">Заказать диагностику</a>
               <p class="hero__note">
                 <span class="hero__note-line hero__note-line--first">* Пройдите опрос <b class="hero__note-accent">за 1 минуту</b> и узнайте цену ремонта</span>
                 <span class="hero__note-line">после диагностики</span>
               </p>
             </div>
-            <a href="{{ route('quiz.contact') }}" class="hero__btn hero__btn--secondary" data-lead-source="hero_master">Вызвать мастера</a>
+            <a href="{{ route('quiz.contact') }}" class="hero__btn hero__btn--secondary" data-lead-source="hero_master" data-analytics-event="button_click" data-analytics-label="Вызвать мастера">Вызвать мастера</a>
           </div>
         </div>
 
@@ -150,7 +150,7 @@
             <p class="services__card-text">
               Устраняем проблемы с перегревом, шумом и падением производительности. Проводим чистку от пыли, замену термопасты, термопрокладок, матриц, портов и кулеров. Установим и настроим ОС, удалим вирусы, исправим ошибки ПО и обновим BIOS.
             </p>
-            <button type="button" class="services__btn" data-quiz-device="laptop">Записаться на диагностику</button>
+            <button type="button" class="services__btn" data-quiz-device="laptop" data-lead-source="card_laptop" data-analytics-event="button_click" data-analytics-label="Записаться на диагностику — ноутбук">Записаться на диагностику</button>
           </article>
 
           <article class="services__card">
@@ -168,7 +168,7 @@
             <p class="services__card-text">
               Решаем любые программные сбои и аппаратные поломки стационарных ПК. Проводим полную чистку от пыли, замену термопасты процессора и видеокарты. Отремонтируем или заменим комплектующие, настроим BIOS, установим драйверы и удалим вирусы.
             </p>
-            <button type="button" class="services__btn" data-quiz-device="pc">Записаться на диагностику</button>
+            <button type="button" class="services__btn" data-quiz-device="pc" data-lead-source="card_pc" data-analytics-event="button_click" data-analytics-label="Записаться на диагностику — ПК">Записаться на диагностику</button>
           </article>
 
           <article class="services__card">
@@ -186,7 +186,7 @@
             <p class="services__card-text">
               Чиним ТВ, если пропало изображение или звук, устройство не включается, не ловит сигнал, не видит внешние подключения или не реагирует на пульт. Ремонтируем светодиодные линейки подсветки, платы питания, матрицы, разъемы и ТВ-тюнеры.
             </p>
-            <button type="button" class="services__btn" data-quiz-device="tv">Записаться на диагностику</button>
+            <button type="button" class="services__btn" data-quiz-device="tv" data-lead-source="card_tv" data-analytics-event="button_click" data-analytics-label="Записаться на диагностику — ТВ">Записаться на диагностику</button>
           </article>
         </div>
       </div>
@@ -311,7 +311,7 @@
       </div>
 
       <div class="pricing__actions">
-        <a href="{{ route('quiz.device') }}" class="pricing__btn" data-quiz-full data-lead-source="services_survey">Пройти опрос →</a>
+        <a href="{{ route('quiz.device') }}" class="pricing__btn" data-quiz-full data-lead-source="services_survey" data-analytics-event="button_click" data-analytics-label="Пройти опрос">Пройти опрос →</a>
       </div>
     </div>
   </section>
@@ -441,7 +441,7 @@
               <span class="contact__lead-line contact__lead-line--mobile">ремонта вашей техники</span>
             </p>
 
-            <form class="contact__form" action="#" method="post">
+            <form class="contact__form" action="#" method="post" data-analytics-form-id="footer_form">
               <div class="contact__fields">
                 <label class="contact__field">
                   <span class="contact__label">Имя*</span>

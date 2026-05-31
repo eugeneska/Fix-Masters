@@ -142,6 +142,10 @@
         quiz.setProblems(collectProblems(), customText);
       }
 
+      if (window.FixMastersAnalytics) {
+        window.FixMastersAnalytics.trackQuizStep("problem");
+      }
+
       const device = quiz ? quiz.getDevice() : sessionStorage.getItem("fixMastersQuizDevice");
       if (device === "pc") {
         window.location.href = paths.quizContactUrl();

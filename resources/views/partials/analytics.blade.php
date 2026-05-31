@@ -1,0 +1,55 @@
+@php
+  $gtmId = config('analytics.gtm_container_id');
+  $ga4Id = config('analytics.ga4_measurement_id');
+  $metrikaId = config('analytics.yandex_metrika_id');
+@endphp
+
+@if ($gtmId)
+<script>
+window.dataLayer = window.dataLayer || [];
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer',@json($gtmId));
+</script>
+@endif
+
+@if ($ga4Id && ! $gtmId)
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ $ga4Id }}"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', @json($ga4Id));
+</script>
+@endif
+
+@if ($metrikaId)
+<script type="text/javascript">
+(function(m,e,t,r,i,k,a){
+  m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+  m[i].l=1*new Date();
+  for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+  k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+})(window, document, "script", "https://mc.yandex.ru/metrika/tag.js?id={{ (int) $metrikaId }}", "ym");
+
+ym({{ (int) $metrikaId }}, "init", {
+  ssr: true,
+  webvisor: true,
+  clickmap: true,
+  referrer: document.referrer,
+  url: location.href,
+  accurateTrackBounce: true,
+  trackLinks: true,
+});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/{{ (int) $metrikaId }}" style="position:absolute; left:-9999px;" alt=""></div></noscript>
+@endif
+
+<script>
+window.FixMastersAnalyticsConfig = {
+  metrikaId: @json($metrikaId ? (int) $metrikaId : null),
+  ga4Direct: @json((bool) ($ga4Id && ! $gtmId)),
+};
+</script>
+<script src="{{ asset('assets/js/analytics.js') }}"></script>

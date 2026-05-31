@@ -40,12 +40,19 @@
     modal.hidden = false;
     lockBody(true);
     markShown();
+    if (window.FixMastersAnalytics) {
+      window.FixMastersAnalytics.trackPopup("open");
+    }
     return true;
   }
 
   function closeModal() {
+    const wasOpen = isOpen();
     modal.hidden = true;
     lockBody(false);
+    if (wasOpen && window.FixMastersAnalytics) {
+      window.FixMastersAnalytics.trackPopup("close");
+    }
   }
 
   function tryOpenFromTimer() {

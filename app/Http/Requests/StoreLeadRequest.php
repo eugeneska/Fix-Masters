@@ -38,6 +38,13 @@ class StoreLeadRequest extends FormRequest
             'utm_term' => ['nullable', 'string', 'max:255'],
             'gclid' => ['nullable', 'string', 'max:255'],
             'yclid' => ['nullable', 'string', 'max:255'],
+            'form_url' => ['nullable', 'string', 'max:2048'],
+            'first_contact_url' => ['nullable', 'string', 'max:2048'],
+            'last_click' => ['nullable', 'string', 'max:255'],
+            'referrer' => ['nullable', 'string', 'max:2048'],
+            'ym_client_id' => ['nullable', 'string', 'max:64'],
+            'ga_client_id' => ['nullable', 'string', 'max:64'],
+            'messenger' => ['nullable', 'string', 'max:32'],
         ];
     }
 

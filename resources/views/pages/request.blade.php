@@ -32,7 +32,7 @@
 
           <h1 class="quiz-step4__title">Заполните форму<br>и мы с вами свяжемся</h1>
 
-          <form class="quiz-step4__form" action="{{ route('leads.store') }}" method="post" novalidate>
+          <form class="quiz-step4__form" action="{{ route('leads.store') }}" method="post" novalidate data-analytics-form-id="quiz_contact">
             @csrf
             <label class="quiz-step4__field">
               <span class="quiz-step4__label">Имя*</span>

@@ -26,6 +26,13 @@ class LeadController extends Controller
             'utm_term' => $validated['utm_term'] ?? null,
             'gclid' => $validated['gclid'] ?? null,
             'yclid' => $validated['yclid'] ?? null,
+            'form_url' => $validated['form_url'] ?? null,
+            'first_contact_url' => $validated['first_contact_url'] ?? null,
+            'last_click' => $validated['last_click'] ?? null,
+            'referrer' => $validated['referrer'] ?? null,
+            'ym_client_id' => $validated['ym_client_id'] ?? null,
+            'ga_client_id' => $validated['ga_client_id'] ?? null,
+            'messenger' => $validated['messenger'] ?? null,
             'ip' => $request->ip(),
         ]);
 

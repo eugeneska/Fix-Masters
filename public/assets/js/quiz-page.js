@@ -57,6 +57,9 @@
       if (device && quiz) {
         quiz.setDevice(device);
       }
+      if (window.FixMastersAnalytics) {
+        window.FixMastersAnalytics.trackQuizStep("device", { device });
+      }
       window.location.href = paths.quizProblemUrl();
     });
   }

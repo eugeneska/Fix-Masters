@@ -50,6 +50,7 @@
         comment: commentInput ? commentInput.value.trim() : "",
         consent: consentInput ? consentInput.checked : false,
         quizAnswers: quiz ? quiz.getAnswersForSubmit() : null,
+        formElement: form,
       });
 
       if (quiz) {

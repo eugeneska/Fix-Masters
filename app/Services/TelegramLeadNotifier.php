@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Lead;
+use App\Models\SiteSetting;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -10,8 +11,8 @@ class TelegramLeadNotifier
 {
     public function send(Lead $lead): bool
     {
-        $token = config('services.telegram.bot_token');
-        $chatId = config('services.telegram.chat_id');
+        $token = SiteSetting::get('telegram_bot_token') ?: config('services.telegram.bot_token');
+        $chatId = SiteSetting::get('telegram_chat_id') ?: config('services.telegram.chat_id');
 
         if (! $token || ! $chatId) {
             Log::warning('Telegram not configured: lead #{id} saved without notification.', ['id' => $lead->id]);
@@ -36,6 +37,8 @@ class TelegramLeadNotifier
 
             return false;
         }
+
+        $lead->forceFill(['telegram_sent' => true])->save();
 
         return true;
     }

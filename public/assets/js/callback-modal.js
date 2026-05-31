@@ -14,7 +14,7 @@
         <button type="button" class="callback-modal__close" aria-label="Закрыть" data-callback-close>×</button>
         <h2 class="callback-modal__title" id="callback-modal-title">Оставьте заявку</h2>
 
-        <form class="callback-modal__form" id="callback-modal-form">
+        <form class="callback-modal__form" id="callback-modal-form" data-analytics-form-id="header_callback">
           <label class="callback-modal__field">
             <span class="callback-modal__label">Имя*</span>
             <input type="text" class="callback-modal__input" name="name" placeholder="Введите имя" required autocomplete="name">
@@ -51,7 +51,10 @@
   const modal = document.getElementById("callback-modal");
   const form = document.getElementById("callback-modal-form");
   const closeButtons = Array.from(document.querySelectorAll("[data-callback-close]"));
-  const leads = window.FixMastersLeads;
+
+  function getLeads() {
+    return window.FixMastersLeads;
+  }
 
   function lockBody(isLocked) {
     document.body.style.overflow = isLocked ? "hidden" : "";
@@ -61,12 +64,19 @@
     if (!modal) return;
     modal.hidden = false;
     lockBody(true);
+    if (window.FixMastersAnalytics) {
+      window.FixMastersAnalytics.trackPopup("open", { popup_id: "header_callback" });
+    }
   }
 
   function closeModal() {
     if (!modal) return;
+    const wasOpen = !modal.hidden;
     modal.hidden = true;
     lockBody(false);
+    if (wasOpen && window.FixMastersAnalytics) {
+      window.FixMastersAnalytics.trackPopup("close", { popup_id: "header_callback" });
+    }
   }
 
   triggerButtons.forEach((button) => {
@@ -92,6 +102,11 @@
   }
 
   async function submitLead(formElement, source) {
+    const leads = getLeads();
+    if (!leads) {
+      throw new Error("Модуль заявок не загружен. Обновите страницу.");
+    }
+
     const formData = new FormData(formElement);
     const result = await leads.submit({
       source,
@@ -100,6 +115,7 @@
       comment: String(formData.get("comment") || "").trim(),
       consent: formData.get("consent") === "on",
       quizAnswers: null,
+      formElement,
     });
 
     formElement.reset();
@@ -109,7 +125,11 @@
   if (form) {
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      if (!validatePhones(form) || !form.reportValidity() || !leads) return;
+      const leads = getLeads();
+      if (!validatePhones(form) || !form.reportValidity() || !leads) {
+        if (!leads) alert("Модуль заявок не загружен. Обновите страницу.");
+        return;
+      }
 
       const submitBtn = form.querySelector(".callback-modal__submit");
       if (submitBtn) submitBtn.disabled = true;
@@ -127,7 +147,11 @@
   if (contactForm) {
     contactForm.addEventListener("submit", async (event) => {
       event.preventDefault();
-      if (!validatePhones(contactForm) || !contactForm.reportValidity() || !leads) return;
+      const leads = getLeads();
+      if (!validatePhones(contactForm) || !contactForm.reportValidity() || !leads) {
+        if (!leads) alert("Модуль заявок не загружен. Обновите страницу.");
+        return;
+      }
 
       const submitBtn = contactForm.querySelector(".contact__submit");
       if (submitBtn) submitBtn.disabled = true;

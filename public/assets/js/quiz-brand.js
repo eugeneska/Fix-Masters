@@ -183,6 +183,9 @@
       if (quiz) {
         quiz.setBrand(collectBrandValue());
       }
+      if (window.FixMastersAnalytics) {
+        window.FixMastersAnalytics.trackQuizStep("brand");
+      }
       window.location.href = paths.quizContactUrl();
     });
   }

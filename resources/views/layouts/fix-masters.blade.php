@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Syne:wght@400..800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+  @include('partials.analytics')
   @stack('head')
 </head>
 <body @hasSection('bodyClass') class="@yield('bodyClass')" @endif>
@@ -26,7 +27,7 @@
 
   @include('partials.paths-config')
   <script src="{{ asset('assets/js/quiz-storage.js') }}"></script>
-  <script src="{{ asset('assets/js/lead-tracking.js') }}"></script>
+  <script src="{{ asset('assets/js/lead-tracking.js') }}" defer></script>
   @stack('scripts')
 </body>
 </html>
