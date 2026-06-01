@@ -6,6 +6,7 @@
 .env.production
 .env.example
 .phpactor.json
+.env.example
 .phpunit.result.cache
 /.codex
 /.cursor/
