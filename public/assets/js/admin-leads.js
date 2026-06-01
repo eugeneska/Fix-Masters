@@ -80,8 +80,15 @@
     }
   }
 
+  const rowInteractiveSelector =
+    ".admin-status-cell, .admin-note-form, .admin-delete-form, .admin-table__check-col, a, button, input, select, textarea";
+
   document.querySelectorAll(".admin-table__row[data-href]").forEach((row) => {
-    row.addEventListener("click", () => {
+    row.addEventListener("click", (event) => {
+      if (event.target.closest(rowInteractiveSelector)) {
+        return;
+      }
+
       window.location.href = row.dataset.href;
     });
   });
@@ -113,44 +120,48 @@
     });
   });
 
-  document.addEventListener("click", async (event) => {
-    const btn = event.target.closest(".admin-segmented__btn");
-    if (!btn) return;
+  document.addEventListener(
+    "click",
+    async (event) => {
+      const btn = event.target.closest(".admin-segmented__btn");
+      if (!btn) return;
 
-    event.preventDefault();
-    event.stopPropagation();
+      event.preventDefault();
+      event.stopPropagation();
 
-    const cell = btn.closest(".admin-status-cell");
-    if (!cell) return;
+      const cell = btn.closest(".admin-status-cell");
+      if (!cell) return;
 
-    const leadId = cell.dataset.leadId;
-    const field = cell.dataset.field;
-    const status = btn.dataset.status ?? "";
+      const leadId = cell.dataset.leadId;
+      const field = cell.dataset.field;
+      const status = btn.dataset.status ?? "";
 
-    const previous = cell.querySelector(".admin-segmented__btn.is-active")?.dataset.status ?? "";
+      const previous = cell.querySelector(".admin-segmented__btn.is-active")?.dataset.status ?? "";
 
-    try {
-      updateSegmented(cell, status);
-      updateStatusBadge(cell, status);
+      try {
+        updateSegmented(cell, status);
+        updateStatusBadge(cell, status);
 
-      const body = {};
-      body[field] = status;
+        const body = {};
+        body[field] = status;
 
-      const data = await patchLead(leadId, body);
+        const data = await patchLead(leadId, body);
 
-      if (data.lead) {
-        updateAnalyticsDots(leadId, data.lead);
+        if (data.lead) {
+          updateAnalyticsDots(leadId, data.lead);
+        }
+
+        if (field === "quality_status" && status === "yes") {
+          notifyConversionResult(data.conversion);
+        }
+      } catch (error) {
+        updateSegmented(cell, previous);
+        updateStatusBadge(cell, previous);
+        alert(error.message);
       }
-
-      if (field === "quality_status" && status === "yes") {
-        notifyConversionResult(data.conversion);
-      }
-    } catch (error) {
-      updateSegmented(cell, previous);
-      updateStatusBadge(cell, previous);
-      alert(error.message);
-    }
-  });
+    },
+    true,
+  );
 
   document.querySelectorAll(".admin-note-form").forEach((form) => {
     form.addEventListener("submit", async (event) => {

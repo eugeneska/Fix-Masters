@@ -102,7 +102,7 @@
               $clientComment = $lead->comment ?: $lead->problemsText();
             @endphp
             <tr class="admin-table__row" data-href="{{ route('admin.leads.show', $lead) }}">
-              <td class="admin-table__check-col" onclick="event.stopPropagation()">
+              <td class="admin-table__check-col">
                 <input type="checkbox" class="admin-row-check" data-lead-select value="{{ $lead->id }}" aria-label="Выделить заявку #{{ $lead->id }}">
               </td>
               <td>{{ $createdAt->format('Y-m-d') }}</td>
@@ -111,16 +111,16 @@
               <td>{{ $lead->phone }}</td>
               <td class="admin-table__utm">{{ $lead->utmSummary() ?? '—' }}</td>
               <td class="admin-table__comment">{{ $clientComment ? Str::limit($clientComment, 80) : '—' }}</td>
-              <td onclick="event.stopPropagation()">
+              <td>
                 @include('admin.partials.status-toggle', ['lead' => $lead, 'field' => 'quality_status'])
               </td>
-              <td onclick="event.stopPropagation()">
+              <td>
                 @include('admin.partials.status-toggle', ['lead' => $lead, 'field' => 'qualification_status'])
               </td>
-              <td onclick="event.stopPropagation()">
+              <td>
                 @include('admin.partials.analytics-dots', ['lead' => $lead])
               </td>
-              <td onclick="event.stopPropagation()">
+              <td>
                 <form class="admin-note-form" data-lead-id="{{ $lead->id }}">
                   <input type="text" name="admin_note" value="{{ $lead->admin_note }}" class="admin-note-input" placeholder="Примечание">
                   <button type="submit" class="admin-btn admin-btn--outline admin-btn--sm">OK</button>
@@ -129,7 +129,7 @@
               <td>
                 <span class="admin-source-badge">{{ $lead->sourceLabel() }}</span>
               </td>
-              <td class="admin-table__actions-col" onclick="event.stopPropagation()">
+              <td class="admin-table__actions-col">
                 <form method="POST" action="{{ route('admin.leads.destroy', $lead) }}" class="admin-delete-form" data-lead-id="{{ $lead->id }}">
                   @csrf
                   @method('DELETE')
