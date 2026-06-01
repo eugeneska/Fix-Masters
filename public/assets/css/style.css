@@ -2045,13 +2045,24 @@ body.has-cookie-consent .site-fab {
     min-height: 780px;
     max-height: 780px;
     border-radius: 0;
+    background-image: none;
+  }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
     background-image: url("../../images/hero/hero.webp");
     background-repeat: no-repeat;
     background-position: calc(100% + 74px) bottom;
     background-size: 148% auto;
+    pointer-events: none;
   }
 
   .hero__inner {
+    position: relative;
+    z-index: 3;
     height: 100%;
     min-height: 780px;
     padding: 24px 20px 20px;
@@ -2202,7 +2213,7 @@ body.has-cookie-consent .site-fab {
 
   .hero__brands {
     display: block;
-    z-index: 0;
+    z-index: auto;
     pointer-events: none;
   }
 
@@ -2212,6 +2223,7 @@ body.has-cookie-consent .site-fab {
 
   .hero__brand-logo--lenovo {
     display: block;
+    z-index: 2;
     top: -10px;
     left: 8px;
     width: 136px;
@@ -2220,6 +2232,7 @@ body.has-cookie-consent .site-fab {
 
   .hero__brand-logo--msi {
     display: block;
+    z-index: 2;
     top: 55px;
     right: 14px;
     left: auto;
@@ -2229,6 +2242,7 @@ body.has-cookie-consent .site-fab {
 
   .hero__brand-logo--nvid {
     display: block;
+    z-index: 2;
     top: 190px;
     right: 4px;
     left: auto;
@@ -2238,6 +2252,7 @@ body.has-cookie-consent .site-fab {
 
   .hero__brand-logo--hp {
     display: block;
+    z-index: 0;
     top: 250px;
     right: 10px;
     left: auto;
@@ -2247,6 +2262,7 @@ body.has-cookie-consent .site-fab {
 
   .hero__brand-logo--apple {
     display: block;
+    z-index: 2;
     top: 380px;
     left: 16px;
     width: 54px;
@@ -2255,6 +2271,7 @@ body.has-cookie-consent .site-fab {
 
   .hero__brand-logo--lg {
     display: block;
+    z-index: 0;
     top: 394px;
     left: 100px;
     width: 76px;
@@ -2263,6 +2280,7 @@ body.has-cookie-consent .site-fab {
 
   .hero__brand-logo--gig {
     display: block;
+    z-index: 2;
     top: 468px;
     left: 0px;
     width: 100px;
@@ -2821,6 +2839,53 @@ body.has-cookie-consent .site-fab {
 
   .footer__copy {
     text-align: center;
+  }
+}
+
+/* Подстройка только под ~412×892 */
+@media (min-width: 400px) and (max-width: 424px) and (min-height: 872px) and (max-height: 912px) {
+  .hero {
+    height: auto;
+    min-height: 0;
+    max-height: none;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    height: min(200px, 34%);
+    pointer-events: none;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.48) 0%,
+      rgba(0, 0, 0, 0.22) 40%,
+      transparent 100%
+    );
+  }
+
+  .hero::after {
+    background-size: 180% auto;
+    background-position: calc(100% + 74px) calc(100% + 108px);
+  }
+
+  .hero__inner {
+    height: auto;
+    min-height: 0;
+    padding-bottom: 20px;
+  }
+
+  .hero__actions {
+    margin-top: 260px;
+  }
+
+  .hero__note {
+    text-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.85),
+      0 0 16px rgba(0, 0, 0, 0.55);
   }
 }
 
