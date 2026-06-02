@@ -256,6 +256,11 @@
   word-break: break-word;
 }
 
+.admin-table__datetime,
+.admin-table__phone {
+  white-space: nowrap;
+}
+
 .admin-source-badge {
   display: inline;
   font-size: inherit;

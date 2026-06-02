@@ -77,7 +77,6 @@
             <th class="admin-table__check-col">
               <input type="checkbox" class="admin-row-check" data-select-all aria-label="Выделить все">
             </th>
-            <th>Дата</th>
             <th>
               <a href="{{ route('admin.leads.index', array_merge(request()->query(), ['sort' => 'created_at', 'direction' => ($filters['direction'] ?? 'desc') === 'desc' ? 'asc' : 'desc'])) }}">
                 Дата/время @if(($filters['sort'] ?? 'created_at') === 'created_at')↓@endif
@@ -105,10 +104,9 @@
               <td class="admin-table__check-col">
                 <input type="checkbox" class="admin-row-check" data-lead-select value="{{ $lead->id }}" aria-label="Выделить заявку #{{ $lead->id }}">
               </td>
-              <td>{{ $createdAt->format('Y-m-d') }}</td>
-              <td>{{ $createdAt->format('Y-m-d H:i:s') }}</td>
+              <td class="admin-table__datetime">{{ $createdAt->format('Y-m-d H:i:s') }}</td>
               <td>{{ $lead->name }}</td>
-              <td>{{ $lead->phone }}</td>
+              <td class="admin-table__phone">{{ $lead->phone }}</td>
               <td class="admin-table__utm">{{ $lead->utmSummary() ?? '—' }}</td>
               <td class="admin-table__comment">{{ $clientComment ? Str::limit($clientComment, 80) : '—' }}</td>
               <td>
@@ -139,7 +137,7 @@
             </tr>
           @empty
             <tr>
-              <td colspan="13" class="admin-table__empty">Заявок пока нет</td>
+              <td colspan="12" class="admin-table__empty">Заявок пока нет</td>
             </tr>
           @endforelse
         </tbody>
