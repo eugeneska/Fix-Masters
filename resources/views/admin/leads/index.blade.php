@@ -87,8 +87,8 @@
             <th>Телефон</th>
             <th>UTM</th>
             <th>Комментарий клиента</th>
-            <th>Качественный лид</th>
             <th>Квалифицированный лид</th>
+            <th>Качественный лид</th>
             <th>Метрика / GA4</th>
             <th>Примечание</th>
             <th>Источник</th>
@@ -112,10 +112,10 @@
               <td class="admin-table__utm">{{ $lead->utmSummary() ?? '—' }}</td>
               <td class="admin-table__comment">{{ $clientComment ? Str::limit($clientComment, 80) : '—' }}</td>
               <td>
-                @include('admin.partials.status-toggle', ['lead' => $lead, 'field' => 'quality_status'])
+                @include('admin.partials.status-toggle', ['lead' => $lead, 'field' => 'qualification_status'])
               </td>
               <td>
-                @include('admin.partials.status-toggle', ['lead' => $lead, 'field' => 'qualification_status'])
+                @include('admin.partials.status-toggle', ['lead' => $lead, 'field' => 'quality_status'])
               </td>
               <td>
                 @include('admin.partials.analytics-dots', ['lead' => $lead])
