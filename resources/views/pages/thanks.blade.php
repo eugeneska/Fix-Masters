@@ -38,6 +38,8 @@
 
 @push('scripts')
 <script src="{{ asset('assets/js/thanks-page.js') }}"></script>
+<script src="{{ asset('assets/js/phone-mask.js') }}"></script>
 <script src="{{ asset('assets/js/site-fab.js') }}"></script>
+<script src="{{ asset('assets/js/callback-modal.js') }}"></script>
 <script src="{{ asset('assets/js/cookie-consent.js') }}"></script>
 @endpush
