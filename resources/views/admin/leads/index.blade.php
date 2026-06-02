@@ -9,6 +9,8 @@
     </div>
 
     <form method="GET" action="{{ route('admin.leads.index') }}" class="admin-filters">
+      <input type="hidden" name="sort" value="{{ $filters['sort'] ?? 'created_at' }}">
+      <input type="hidden" name="direction" value="{{ $filters['direction'] ?? 'desc' }}">
       <div class="admin-filters__row">
         <label class="admin-field admin-field--inline">
           <span class="admin-field__label">Период</span>
@@ -66,7 +68,7 @@
         </label>
         <button type="submit" class="admin-btn admin-btn--primary">Применить</button>
         <a href="{{ route('admin.leads.index') }}" class="admin-btn admin-btn--ghost">Сбросить</a>
-        <a href="{{ route('admin.export.csv', request()->query()) }}" class="admin-btn admin-btn--outline">CSV</a>
+        <button type="submit" formaction="{{ route('admin.export.csv') }}" formmethod="GET" class="admin-btn admin-btn--outline">CSV</button>
       </div>
     </form>
 

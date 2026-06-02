@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class Lead extends Model
@@ -332,9 +333,31 @@ class Lead extends Model
     }
 
     /**
+     * @return array<string, mixed>
+     */
+    public static function adminFiltersFromRequest(Request $request, bool $withSort = true): array
+    {
+        $keys = [
+            'period',
+            'date_from',
+            'date_to',
+            'source',
+            'qualification',
+            'quality',
+        ];
+
+        if ($withSort) {
+            $keys[] = 'sort';
+            $keys[] = 'direction';
+        }
+
+        return $request->only($keys);
+    }
+
+    /**
      * @param  array<string, mixed>  $filters
      */
-    public function scopeFiltered(Builder $query, array $filters): Builder
+    public function scopeFiltered(Builder $query, array $filters, bool $withSort = true): Builder
     {
         $period = $filters['period'] ?? 'all';
         $dateFrom = $filters['date_from'] ?? null;
@@ -387,13 +410,21 @@ class Lead extends Model
             }
         }
 
-        $sort = $filters['sort'] ?? 'created_at';
-        $direction = $filters['direction'] ?? 'desc';
+        if ($withSort) {
+            $sort = $filters['sort'] ?? 'created_at';
+            $direction = $filters['direction'] ?? 'desc';
 
-        if (in_array($sort, ['id', 'created_at', 'name', 'source'], true)) {
-            $query->orderBy($sort, $direction === 'asc' ? 'asc' : 'desc');
-        } else {
-            $query->orderByDesc('created_at');
+            $direction = $direction === 'asc' ? 'asc' : 'desc';
+
+            if (in_array($sort, ['id', 'created_at', 'name', 'source'], true)) {
+                $query->orderBy($sort, $direction);
+
+                if ($sort === 'created_at') {
+                    $query->orderBy('id', $direction);
+                }
+            } else {
+                $query->orderByDesc('created_at')->orderByDesc('id');
+            }
         }
 
         return $query;

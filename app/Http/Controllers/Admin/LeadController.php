@@ -17,16 +17,7 @@ class LeadController extends Controller
 {
     public function index(Request $request): View
     {
-        $filters = $request->only([
-            'period',
-            'date_from',
-            'date_to',
-            'source',
-            'qualification',
-            'quality',
-            'sort',
-            'direction',
-        ]);
+        $filters = Lead::adminFiltersFromRequest($request);
 
         $perPage = (int) $request->input('per_page', 25);
         $perPage = in_array($perPage, [10, 25, 50, 100], true) ? $perPage : 25;

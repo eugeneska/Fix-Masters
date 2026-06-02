@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Lead;
+use Carbon\CarbonInterface;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -11,14 +12,7 @@ class ExportController extends Controller
 {
     public function csv(Request $request): StreamedResponse
     {
-        $filters = $request->only([
-            'period',
-            'date_from',
-            'date_to',
-            'source',
-            'qualification',
-            'quality',
-        ]);
+        $filters = Lead::adminFiltersFromRequest($request);
 
         $filename = 'leads-'.now()->format('Y-m-d-His').'.csv';
 
@@ -46,36 +40,42 @@ class ExportController extends Controller
                 'Метрика отправлено',
             ], ';');
 
-            Lead::query()
-                ->filtered($filters)
-                ->orderByDesc('id')
-                ->chunk(200, function ($leads) use ($handle) {
-                    foreach ($leads as $lead) {
-                        fputcsv($handle, [
-                            $lead->id,
-                            $lead->created_at->timezone(config('app.timezone'))->format('Y-m-d H:i:s'),
-                            $lead->name,
-                            $lead->phone,
-                            $lead->sourceLabel(),
-                            $lead->deviceLabel() ?? '',
-                            $lead->problemsText() ?? '',
-                            $lead->brandLabel() ?? '',
-                            $lead->statusLabel($lead->qualification_status),
-                            $lead->statusLabel($lead->quality_status),
-                            $lead->ip ?? '',
-                            $lead->utmSummary() ?? '',
-                            $lead->gclid ?? '',
-                            $lead->yclid ?? '',
-                            $lead->comment ?? '',
-                            $lead->ga4_conversion_sent ? 'Да' : 'Нет',
-                            $lead->metrika_conversion_sent ? 'Да' : 'Нет',
-                        ], ';');
-                    }
-                });
+            foreach (Lead::query()->filtered($filters)->lazy(200) as $lead) {
+                fputcsv($handle, [
+                    $lead->id,
+                    self::csvDateTime($lead->created_at),
+                    $lead->name,
+                    $lead->phone,
+                    $lead->sourceLabel(),
+                    $lead->deviceLabel() ?? '',
+                    $lead->problemsText() ?? '',
+                    $lead->brandLabel() ?? '',
+                    $lead->statusLabel($lead->qualification_status),
+                    $lead->statusLabel($lead->quality_status),
+                    $lead->ip ?? '',
+                    $lead->utmSummary() ?? '',
+                    $lead->gclid ?? '',
+                    $lead->yclid ?? '',
+                    $lead->comment ?? '',
+                    $lead->ga4_conversion_sent ? 'Да' : 'Нет',
+                    $lead->metrika_conversion_sent ? 'Да' : 'Нет',
+                ], ';');
+            }
 
             fclose($handle);
         }, $filename, [
             'Content-Type' => 'text/csv; charset=UTF-8',
         ]);
+    }
+
+    /**
+     * Excel при открытии CSV часто превращает ISO-дату в число; при узкой колонке показывает #####.
+     * Префикс TAB заставляет Excel хранить значение как текст.
+     */
+    private static function csvDateTime(CarbonInterface $dateTime): string
+    {
+        $formatted = $dateTime->timezone(config('app.timezone'))->format('d.m.Y H:i:s');
+
+        return "\t".$formatted;
     }
 }
