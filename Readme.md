@@ -94,7 +94,7 @@ php artisan db:seed --class=AdminUserSeeder
 В `.env` укажите идентификаторы счётчиков и секреты Measurement Protocol:
 
 ```env
-GTM_CONTAINER_ID=          # опционально
+GTM_CONTAINER_ID=GTM-KNVT3D4H
 GA4_MEASUREMENT_ID=
 GA4_API_SECRET=
 GA4_CONVERSION_EVENT=quality_lead

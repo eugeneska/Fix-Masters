@@ -17,6 +17,7 @@
   @stack('head')
 </head>
 <body @hasSection('bodyClass') class="@yield('bodyClass')" @endif>
+  @include('partials.analytics-gtm-noscript')
   @include('partials.header')
 
   @yield('content')
