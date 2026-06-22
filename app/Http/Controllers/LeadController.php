@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreLeadRequest;
 use App\Models\Lead;
 use App\Services\TelegramLeadNotifier;
+use App\Support\ClientIp;
 use Illuminate\Http\JsonResponse;
 
 class LeadController extends Controller
@@ -33,7 +34,7 @@ class LeadController extends Controller
             'ym_client_id' => $validated['ym_client_id'] ?? null,
             'ga_client_id' => $validated['ga_client_id'] ?? null,
             'messenger' => $validated['messenger'] ?? null,
-            'ip' => $request->ip(),
+            'ip' => ClientIp::resolve($request),
         ]);
 
         $notifier->send($lead);

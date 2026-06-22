@@ -144,7 +144,7 @@ class LeadController extends Controller
      */
     private function trySendQualityConversion(Lead $lead, AnalyticsConversionService $conversionService): ?array
     {
-        if (! $lead->canAutoSendConversion()) {
+        if (! $lead->canSendConversion()) {
             return null;
         }
 

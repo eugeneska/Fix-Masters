@@ -48,9 +48,14 @@ class TelegramLeadNotifier
         $lines = [
             '<b>Новая заявка #'.$lead->id.'</b>',
             '📅 '.$lead->created_at->timezone(config('app.timezone'))->format('d.m.Y H:i'),
+            '📍 '.e($lead->sourceLabel()),
             '👤 '.e($lead->name),
             '📞 '.e($lead->phone),
         ];
+
+        if ($lead->comment) {
+            $lines[] = '💬 '.e($lead->comment);
+        }
 
         if ($lead->ip) {
             $lines[] = '🌐 '.e($lead->ip);
@@ -59,11 +64,59 @@ class TelegramLeadNotifier
         $quiz = $this->formatQuizAnswers($lead->quiz_answers);
         if ($quiz !== '') {
             $lines[] = '';
-            $lines[] = '<b>Ответы квиза:</b>';
+            $lines[] = '<b>Заказ услуги:</b>';
             $lines[] = $quiz;
         }
 
+        $utm = $this->formatUtm($lead);
+        if ($utm !== '') {
+            $lines[] = '';
+            $lines[] = '<b>UTM:</b>';
+            $lines[] = $utm;
+        }
+
+        $ads = $this->formatAdIds($lead);
+        if ($ads !== '') {
+            $lines[] = '';
+            $lines[] = '<b>Реклама:</b>';
+            $lines[] = $ads;
+        }
+
         return implode("\n", $lines);
+    }
+
+    private function formatUtm(Lead $lead): string
+    {
+        $parts = [];
+
+        foreach ([
+            'source' => $lead->utm_source,
+            'medium' => $lead->utm_medium,
+            'campaign' => $lead->utm_campaign,
+            'content' => $lead->utm_content,
+            'term' => $lead->utm_term,
+        ] as $label => $value) {
+            if ($value) {
+                $parts[] = '• '.$label.'='.e((string) $value);
+            }
+        }
+
+        return implode("\n", $parts);
+    }
+
+    private function formatAdIds(Lead $lead): string
+    {
+        $parts = [];
+
+        if ($lead->gclid) {
+            $parts[] = '• gclid='.e((string) $lead->gclid);
+        }
+
+        if ($lead->yclid) {
+            $parts[] = '• yclid='.e((string) $lead->yclid);
+        }
+
+        return implode("\n", $parts);
     }
 
     /**

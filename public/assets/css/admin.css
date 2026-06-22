@@ -250,9 +250,14 @@
   padding: 32px;
 }
 
-.admin-table__comment,
-.admin-table__utm {
+.admin-table__comment {
   max-width: 200px;
+  word-break: break-word;
+}
+
+.admin-table__utm {
+  min-width: 280px;
+  max-width: 360px;
   word-break: break-word;
 }
 

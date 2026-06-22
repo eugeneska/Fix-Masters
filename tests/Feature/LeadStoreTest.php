@@ -54,6 +54,33 @@ class LeadStoreTest extends TestCase
         $this->assertSame('laptop', $lead->quiz_answers['device']);
     }
 
+    public function test_lead_stores_ipv4_from_forwarded_header(): void
+    {
+        Http::fake([
+            'api.telegram.org/*' => Http::response(['ok' => true]),
+        ]);
+
+        config([
+            'services.telegram.bot_token' => 'test-token',
+            'services.telegram.chat_id' => '12345',
+        ]);
+
+        $response = $this->postJson(route('leads.store'), [
+            'source' => LeadSource::HeaderCallback->value,
+            'name' => 'Иван',
+            'phone' => '+375291234567',
+            'consent' => true,
+        ], [
+            'X-Forwarded-For' => '203.0.113.45',
+        ]);
+
+        $response->assertOk();
+
+        $this->assertDatabaseHas('leads', [
+            'ip' => '203.0.113.45',
+        ]);
+    }
+
     public function test_lead_requires_consent(): void
     {
         $response = $this->postJson(route('leads.store'), [

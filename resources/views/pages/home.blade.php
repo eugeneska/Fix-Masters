@@ -35,7 +35,7 @@
             <svg class="hero__location-icon" width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M8 0C4.134 0 1 3.134 1 7c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" fill="currentColor"/>
             </svg>
-            Минск и Минская область
+            Минск и Минский район
           </p>
 
           <h1 class="hero__title">

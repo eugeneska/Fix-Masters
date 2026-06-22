@@ -231,7 +231,7 @@ class Lead extends Model
         return true;
     }
 
-    public function canAutoSendConversion(): bool
+    public function canSendConversion(): bool
     {
         if ($this->quality_status !== self::STATUS_YES) {
             return false;
