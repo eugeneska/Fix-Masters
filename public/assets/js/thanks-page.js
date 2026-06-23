@@ -32,7 +32,7 @@
     };
 
     analytics.trackFormSubmit(formId, extra);
-    analytics.push("lead_success", { form_id: formId, ...extra });
+    analytics.push("lead_success", { form_id: formId, ...extra }, { skipMetrika: true });
   }
 
   if (document.readyState === "loading") {

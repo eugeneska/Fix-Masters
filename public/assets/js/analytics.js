@@ -17,11 +17,14 @@
     ym(counterId, "reachGoal", eventName, params || {});
   }
 
-  function push(event, params) {
+  function push(event, params, options) {
+    const skipMetrika = options && options.skipMetrika;
     const payload = { event, ...(params || {}) };
     window.dataLayer.push(payload);
     forwardToGa4(event, params);
-    forwardToMetrika(event, params);
+    if (!skipMetrika) {
+      forwardToMetrika(event, params);
+    }
   }
 
   /** Имя события для GTM: латиница, цифры, подчёркивание (как lead source). */
@@ -74,7 +77,7 @@
      */
     trackFormSubmit(formId, extra) {
       const id = normalizeFormEventId(formId);
-      push(id, { form_id: id, ...extra });
+      push(id, { form_id: id, ...extra }, { skipMetrika: true });
     },
 
     trackLeadSuccess(leadId, formId, extra) {
