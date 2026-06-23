@@ -149,7 +149,7 @@
               </button>
             </div>
             <p class="services__card-text">
-              Устраняем проблемы с перегревом, шумом и падением производительности. Проводим чистку от пыли, замену термопасты, термопрокладок, матриц, портов и кулеров. Установим и настроим ОС, удалим вирусы, исправим ошибки ПО и обновим BIOS.
+              Устраняем проблемы с перегревом, шумом и падением производительности. Проводим чистку от пыли, замену термопасты, термопрокладок, матриц, портов и кулеров. Установим и настроим ОС, исправим ошибки и обновим BIOS.
             </p>
             <button type="button" class="services__btn" data-quiz-device="laptop" data-lead-source="card_laptop" data-analytics-event="button_click" data-analytics-label="Записаться на диагностику — ноутбук">Записаться на диагностику</button>
           </article>
@@ -295,13 +295,13 @@
         <div class="pricing__row" role="listitem">
           <span class="pricing__service">Нет звука</span>
           <span class="pricing__category">Телевизоры</span>
-          <span class="pricing__price"><span class="pricing__price-from">от</span> <strong class="pricing__price-value">20 BYN</strong></span>
+          <span class="pricing__price"><span class="pricing__price-from">от</span> <strong class="pricing__price-value">30 BYN</strong></span>
         </div>
 
         <div class="pricing__row" role="listitem">
           <span class="pricing__service">Нет изображения</span>
           <span class="pricing__category">Телевизоры</span>
-          <span class="pricing__price"><span class="pricing__price-from">от</span> <strong class="pricing__price-value">30 BYN</strong></span>
+          <span class="pricing__price"><span class="pricing__price-from">от</span> <strong class="pricing__price-value">60 BYN</strong></span>
         </div>
 
         <div class="pricing__row" role="listitem">
