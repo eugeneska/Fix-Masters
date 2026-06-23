@@ -18,6 +18,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('leads', [LeadController::class, 'index'])->name('leads.index');
     Route::get('leads/{lead}', [LeadController::class, 'show'])->name('leads.show');
+    Route::delete('leads/bulk', [LeadController::class, 'destroyMany'])->name('leads.bulk-destroy');
     Route::delete('leads/{lead}', [LeadController::class, 'destroy'])->name('leads.destroy');
     Route::patch('leads/{lead}', [LeadController::class, 'update'])->name('leads.update');
     Route::post('leads/{lead}/conversion', [LeadController::class, 'sendConversion'])->name('leads.conversion');

@@ -205,6 +205,24 @@
   text-align: center;
 }
 
+.admin-table__num-col {
+  width: 56px;
+  text-align: center;
+  white-space: nowrap;
+  color: #6b7280;
+}
+
+.admin-table-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.admin-bulk-delete-form {
+  margin: 0;
+}
+
 .admin-table__actions-col {
   width: 100px;
   white-space: nowrap;

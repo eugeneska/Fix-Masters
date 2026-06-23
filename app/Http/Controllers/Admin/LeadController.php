@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\LeadSource;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\BulkDestroyLeadsRequest;
 use App\Http\Requests\Admin\SendConversionRequest;
 use App\Http\Requests\Admin\UpdateLeadRequest;
 use App\Models\Lead;
@@ -49,6 +50,16 @@ class LeadController extends Controller
         return redirect()
             ->back(fallback: route('admin.leads.index'))
             ->with('status', 'Заявка удалена');
+    }
+
+    public function destroyMany(BulkDestroyLeadsRequest $request): RedirectResponse
+    {
+        $ids = $request->validated('ids');
+        $count = Lead::query()->whereIn('id', $ids)->delete();
+
+        return redirect()
+            ->back(fallback: route('admin.leads.index'))
+            ->with('status', "Удалено заявок: {$count}");
     }
 
     public function update(

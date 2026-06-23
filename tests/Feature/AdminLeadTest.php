@@ -80,6 +80,24 @@ class AdminLeadTest extends TestCase
         $this->assertDatabaseMissing('leads', ['id' => $lead->id]);
     }
 
+    public function test_admin_can_bulk_delete_leads(): void
+    {
+        $user = User::factory()->create();
+        $leads = Lead::factory()->count(3)->create();
+        $ids = $leads->pluck('id')->all();
+
+        $response = $this->actingAs($user)->delete(route('admin.leads.bulk-destroy'), [
+            'ids' => $ids,
+        ]);
+
+        $response->assertRedirect();
+        $response->assertSessionHas('status');
+
+        foreach ($ids as $id) {
+            $this->assertDatabaseMissing('leads', ['id' => $id]);
+        }
+    }
+
     public function test_conversion_blocked_when_already_sent_to_ga4(): void
     {
         $user = User::factory()->create();

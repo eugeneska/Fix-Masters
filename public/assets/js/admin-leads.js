@@ -81,7 +81,36 @@
   }
 
   const rowInteractiveSelector =
-    ".admin-status-cell, .admin-note-form, .admin-delete-form, .admin-table__check-col, a, button, input, select, textarea";
+    ".admin-status-cell, .admin-note-form, .admin-delete-form, .admin-bulk-delete-form, .admin-table__check-col, a, button, input, select, textarea";
+
+  function getSelectedLeadIds() {
+    return [...document.querySelectorAll("[data-lead-select]:checked")].map((checkbox) => checkbox.value);
+  }
+
+  function updateBulkDeleteButton() {
+    const bulkDeleteBtn = document.querySelector("[data-bulk-delete]");
+    if (!bulkDeleteBtn) return;
+
+    const count = getSelectedLeadIds().length;
+    bulkDeleteBtn.disabled = count === 0;
+    bulkDeleteBtn.textContent = count > 0 ? `Удалить выбранные (${count})` : "Удалить выбранные";
+  }
+
+  function syncSelectAllState() {
+    const selectAllCheckbox = document.querySelector("[data-select-all]");
+    if (!selectAllCheckbox) return;
+
+    const checkboxes = [...document.querySelectorAll("[data-lead-select]")];
+    const checkedCount = checkboxes.filter((checkbox) => checkbox.checked).length;
+
+    selectAllCheckbox.checked = checkboxes.length > 0 && checkedCount === checkboxes.length;
+    selectAllCheckbox.indeterminate = checkedCount > 0 && checkedCount < checkboxes.length;
+  }
+
+  function onSelectionChange() {
+    updateBulkDeleteButton();
+    syncSelectAllState();
+  }
 
   document.querySelectorAll(".admin-table__row[data-href]").forEach((row) => {
     row.addEventListener("click", (event) => {
@@ -99,6 +128,7 @@
       document.querySelectorAll("[data-lead-select]").forEach((checkbox) => {
         checkbox.checked = selectAll.checked;
       });
+      onSelectionChange();
     });
 
     selectAll.addEventListener("click", (event) => {
@@ -107,10 +137,41 @@
   }
 
   document.querySelectorAll("[data-lead-select]").forEach((checkbox) => {
+    checkbox.addEventListener("change", onSelectionChange);
+
     checkbox.addEventListener("click", (event) => {
       event.stopPropagation();
     });
   });
+
+  const bulkDeleteForm = document.querySelector("[data-bulk-delete-form]");
+  if (bulkDeleteForm) {
+    bulkDeleteForm.addEventListener("submit", (event) => {
+      const ids = getSelectedLeadIds();
+
+      if (ids.length === 0) {
+        event.preventDefault();
+        return;
+      }
+
+      if (!window.confirm(`Удалить выбранные заявки (${ids.length})? Это действие нельзя отменить.`)) {
+        event.preventDefault();
+        return;
+      }
+
+      bulkDeleteForm.querySelectorAll('input[name="ids[]"]').forEach((input) => input.remove());
+
+      ids.forEach((id) => {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "ids[]";
+        input.value = id;
+        bulkDeleteForm.appendChild(input);
+      });
+    });
+  }
+
+  onSelectionChange();
 
   document.querySelectorAll(".admin-delete-form").forEach((form) => {
     form.addEventListener("submit", (event) => {

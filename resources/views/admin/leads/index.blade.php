@@ -72,6 +72,14 @@
       </div>
     </form>
 
+    <div class="admin-table-toolbar">
+      <form method="POST" action="{{ route('admin.leads.bulk-destroy') }}" class="admin-bulk-delete-form" data-bulk-delete-form>
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="admin-btn admin-btn--danger admin-btn--sm" data-bulk-delete disabled>Удалить выбранные</button>
+      </form>
+    </div>
+
     <div class="admin-table-wrap">
       <table class="admin-table">
         <thead>
@@ -79,6 +87,7 @@
             <th class="admin-table__check-col">
               <input type="checkbox" class="admin-row-check" data-select-all aria-label="Выделить все">
             </th>
+            <th class="admin-table__num-col">№ п/п</th>
             <th>
               <a href="{{ route('admin.leads.index', array_merge(request()->query(), ['sort' => 'created_at', 'direction' => ($filters['direction'] ?? 'desc') === 'desc' ? 'asc' : 'desc'])) }}">
                 Дата/время @if(($filters['sort'] ?? 'created_at') === 'created_at')↓@endif
@@ -97,15 +106,17 @@
           </tr>
         </thead>
         <tbody>
-          @forelse ($leads as $lead)
+          @forelse ($leads as $index => $lead)
             @php
               $createdAt = $lead->created_at->timezone(config('app.timezone'));
               $clientComment = $lead->comment ?: $lead->problemsText();
+              $rowNumber = ($leads->currentPage() - 1) * $leads->perPage() + $index + 1;
             @endphp
             <tr class="admin-table__row" data-href="{{ route('admin.leads.show', $lead) }}">
               <td class="admin-table__check-col">
                 <input type="checkbox" class="admin-row-check" data-lead-select value="{{ $lead->id }}" aria-label="Выделить заявку #{{ $lead->id }}">
               </td>
+              <td class="admin-table__num-col">{{ $rowNumber }}</td>
               <td class="admin-table__datetime">{{ $createdAt->format('Y-m-d H:i:s') }}</td>
               <td>{{ $lead->name }}</td>
               <td class="admin-table__phone">{{ $lead->phone }}</td>
@@ -139,7 +150,7 @@
             </tr>
           @empty
             <tr>
-              <td colspan="12" class="admin-table__empty">Заявок пока нет</td>
+              <td colspan="13" class="admin-table__empty">Заявок пока нет</td>
             </tr>
           @endforelse
         </tbody>
