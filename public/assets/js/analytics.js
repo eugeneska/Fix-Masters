@@ -112,15 +112,32 @@
     true,
   );
 
-  function trackQuizStartIfNeeded() {
-    if (window.location.pathname.includes("/quiz/device")) {
-      push("quiz_start", { page: window.location.pathname });
+  /** Идентификаторы целей Яндекс Метрики (JS-событие) при заходе на страницу. */
+  const PAGE_GOALS = {
+    "/quiz/device": "Page_quiz_device",
+    "/quiz/problem": "Page_quiz_problem",
+    "/quiz/brand": "Page_quiz_brand",
+    "/quiz/contact": "Page_quiz_contact",
+    "/thanks": "Page_thanks",
+  };
+
+  function normalizePathname(pathname) {
+    const path = String(pathname || "/");
+    if (path.length > 1 && path.endsWith("/")) {
+      return path.slice(0, -1);
     }
+    return path;
+  }
+
+  function trackPageGoalIfNeeded() {
+    const goal = PAGE_GOALS[normalizePathname(window.location.pathname)];
+    if (!goal) return;
+    push(goal, { page: window.location.pathname });
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", trackQuizStartIfNeeded);
+    document.addEventListener("DOMContentLoaded", trackPageGoalIfNeeded);
   } else {
-    trackQuizStartIfNeeded();
+    trackPageGoalIfNeeded();
   }
 })();
