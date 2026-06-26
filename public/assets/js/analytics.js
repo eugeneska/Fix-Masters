@@ -78,10 +78,13 @@
     trackFormSubmit(formId, extra) {
       const id = normalizeFormEventId(formId);
       push(id, { form_id: id, ...extra }, { skipMetrika: true });
+      forwardToMetrika("Form_submit", { form_id: id, ...extra });
     },
 
     trackLeadSuccess(leadId, formId, extra) {
+      const id = normalizeFormEventId(formId || "unknown_form");
       this.trackFormSubmit(formId || "unknown_form", { lead_id: leadId, ...extra });
+      push("lead_success", { form_id: id, lead_id: leadId, ...extra }, { skipMetrika: true });
     },
 
     trackPopup(action, extra) {

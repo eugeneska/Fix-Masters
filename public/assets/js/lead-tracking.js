@@ -3,7 +3,6 @@
   const ATTRIBUTION_KEY = "fixMastersAttribution";
   const POPUP_SHOWN_KEY = "fixMastersPopupShown";
   const SUBMIT_GUARD_KEY = "fixMastersLeadSubmitted";
-  const PENDING_ANALYTICS_KEY = "fixMastersPendingAnalytics";
 
   const UTM_PARAMS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
   const AD_PARAMS = ["gclid", "yclid"];
@@ -166,14 +165,11 @@
       sessionStorage.setItem(SUBMIT_GUARD_KEY, "1");
 
       const formEventId = this.resolveFormEventId(source, formElement);
-      sessionStorage.setItem(
-        PENDING_ANALYTICS_KEY,
-        JSON.stringify({
-          formId: formEventId,
-          leadId: data.id ?? null,
-          source: body.source,
-        }),
-      );
+
+      const analytics = window.FixMastersAnalytics;
+      if (analytics) {
+        analytics.trackLeadSuccess(data.id ?? null, formEventId, { form_source: body.source });
+      }
 
       return data;
     },
