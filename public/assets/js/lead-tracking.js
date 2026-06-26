@@ -168,7 +168,7 @@
 
       const analytics = window.FixMastersAnalytics;
       if (analytics) {
-        analytics.trackLeadSuccess(data.id ?? null, formEventId, { form_source: body.source });
+        await analytics.trackLeadSuccess(data.id ?? null, formEventId, { form_source: body.source });
       }
 
       return data;

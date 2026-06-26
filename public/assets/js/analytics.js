@@ -17,6 +17,23 @@
     ym(counterId, "reachGoal", eventName, params || {});
   }
 
+  /**
+   * Как forwardToMetrika, но возвращает промис, который резолвится либо по
+   * колбэку reachGoal, либо по таймауту — чтобы успеть отправить хит до
+   * редиректа (например, на /thanks), который иначе обрывает запрос.
+   */
+  function forwardToMetrikaAwaitable(eventName, params, timeoutMs) {
+    const counterId = getConfig().metrikaId;
+    if (!counterId || typeof ym !== "function") return Promise.resolve();
+    return new Promise((resolve) => {
+      const timer = setTimeout(resolve, timeoutMs || 300);
+      ym(counterId, "reachGoal", eventName, params || {}, () => {
+        clearTimeout(timer);
+        resolve();
+      });
+    });
+  }
+
   function push(event, params, options) {
     const skipMetrika = options && options.skipMetrika;
     const payload = { event, ...(params || {}) };
@@ -78,13 +95,14 @@
     trackFormSubmit(formId, extra) {
       const id = normalizeFormEventId(formId);
       push(id, { form_id: id, ...extra }, { skipMetrika: true });
-      forwardToMetrika("Form_submit", { form_id: id, ...extra });
+      return forwardToMetrikaAwaitable("Form_submit", { form_id: id, ...extra });
     },
 
     trackLeadSuccess(leadId, formId, extra) {
       const id = normalizeFormEventId(formId || "unknown_form");
-      this.trackFormSubmit(formId || "unknown_form", { lead_id: leadId, ...extra });
+      const goalPromise = this.trackFormSubmit(formId || "unknown_form", { lead_id: leadId, ...extra });
       push("lead_success", { form_id: id, lead_id: leadId, ...extra }, { skipMetrika: true });
+      return goalPromise;
     },
 
     trackPopup(action, extra) {
